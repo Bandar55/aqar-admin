@@ -1,0 +1,103 @@
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Category List
+        </div>
+        <div class="card-body">
+          <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Category Name</th>
+                <th>Subcategory Name</th>
+                <th>Created On</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr *ngFor="let subcategory of subcategories; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{subcategory.categoryId.name}}</td>
+                <td>{{subcategory.name}}</td>
+                <td>{{subcategory.created | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#viewSubcategory"  (click)="getSubcategory(subcategory._id)"><i class="fa fa-eye" aria-hidden="true"></i>View</button> 
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#editSubcategory"><i (click)="getSubcategory1(subcategory._id)" class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                  <!-- <button class="btn btn-danger" (click)="deleteSubcategory(subcategory._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="editSubcategory" >
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Edit Subcategory</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="editCategoryForm" (ngSubmit)="onEditSubcategorySubmit()">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="subcategory">Name</label>
+                            <input type="text" class="form-control"  formControlName="subcategoryName">
+                            <!-- <input type="hidden" name="subcatid" class="form-control" [(ngModel)]="subcatid" #name="ngModel" required> -->
+                            <p style="color: #FF0000" *ngIf="editCategoryForm.controls['subcategoryName'].invalid
+                                && (formSubmited || editCategoryForm.controls['subcategoryName'].dirty)">Please enter name</p>
+                          </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div> 
+                    </div>
+                </div>
+              </form>
+          </div>
+  
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+  
+      </div>
+  </div>
+</div>
+
+
+<div class="modal" id="viewSubcategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">User Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label class="col-md-3">Category Name</label>
+                <div class="col-md-9">
+                  <span class="help-block">{{subCatdata?.categoryId?.name}}</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3">Subcategory Name</label>
+                <div class="col-md-9">
+                  <span class="help-block">{{subCatdata?.name}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,49 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+                  <h1>Login</h1>
+                  <p class="text-muted">Sign In to your account</p>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-user"></i></span>
+                      </div>
+                      <input type="email" class="form-control" placeholder="Email" formControlName="email">
+                    </div>
+                    <p class="valdoyst" style="color: #FF0000"
+                    *ngIf="loginForm.controls['email'].invalid && 
+                    (formSubmited || loginForm.controls['email'].dirty)">
+                    Please enter Email ID </p>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                      </div>
+                      <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
+                    </div>
+                    <p style="color: #FF0000" *ngIf="loginForm.controls['password'].invalid && (formSubmited || loginForm.controls['password'].dirty)">Please enter password</p>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-6">
+                      <label><input type="checkbox" formControlName="remember">Remember Me</label><br>
+                      <button type="submit" class="btn btn-primary px-4">Login</button>
+                    </div>
+                  </div>
+                </form>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </main>
+</div>

@@ -1,0 +1,143 @@
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#addContent" style="margin-bottom: 10px;"><i class="fa fa-plus" aria-hidden="true"></i>Add Static Content</button>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Static Content List
+        </div>
+        <div class="card-body">
+          <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Screen Name</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created On</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let content of contents; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{content.contentType}}</td>
+                <td>
+                  <span *ngIf="content.title.length>30">
+                    {{content.title.substring(0, 30)+'.....'}}
+                  </span>
+                  <span *ngIf="content.title.length<30">
+                    {{content.title}}
+                  </span>
+                </td>
+                <td>
+                  <span *ngIf="content.description.length>30">
+                    {{content.description.substring(0, 30)+'.....'}}
+                  </span>
+                  <span *ngIf="content.description.length<30">
+                    {{content.description}}
+                  </span>
+                </td>
+                <td>{{content.created | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  <button class="btn btn-primary" data-toggle="modal" (click)="getContent(content._id)" data-target="#editContent"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                  <button class="btn btn-danger" (click)="deleteContent(content._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="addContent" >
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Static Content</h4>
+              <button type="button" class="close" (click)="addContentForm.reset()" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="addContentForm" (ngSubmit)="onContentSubmit()">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label>Screen Name</label>
+                              <input type="text" class="form-control" formControlName="type">
+                              <p style="color: #FF0000" *ngIf="addContentForm.controls['type'].invalid && (formSubmited || addContentForm.controls['type'].dirty)">Please enter screen name</p>
+                            </div>
+                          <div class="form-group">
+                              <label>Title</label>
+                              <input type="text" class="form-control" formControlName="title">
+                              <p style="color: #FF0000" *ngIf="addContentForm.controls['title'].invalid && (formSubmited || addContentForm.controls['title'].dirty)">Please enter title</p>
+                          </div>
+                          <div class="form-group">
+                            <label>Description</label>
+                            <textarea type="text" class="form-control" formControlName="description"></textarea>
+                            <p style="color: #FF0000" *ngIf="addContentForm.controls['description'].invalid && (formSubmited || addContentForm.controls['description'].dirty)">Please enter description</p>
+                          </div>
+                          <div class="form-group">
+                              <button class="btn btn-success" type="submit">Submit</button>
+                          </div> 
+                      </div>
+                  </div>
+              </form>
+          </div>
+  
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="addContentForm.reset()" data-dismiss="modal">Cancel</button>
+      </div>
+  
+      </div>
+  </div>
+</div>
+
+
+<div class="modal" id="editContent" > 
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Edit Static Content</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="editContentForm" (ngSubmit)="onEditContentSubmit()">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label>Screen Name</label>
+                              <input type="text" class="form-control" formControlName="type">
+                              <p style="color: #FF0000" *ngIf="editContentForm.controls['type'].invalid && (formSubmited || editContentForm.controls['type'].dirty)">Please enter screen name</p>
+                            </div>
+                          <div class="form-group">
+                              <label>Title</label>
+                              <input type="text" class="form-control" formControlName="title">
+                              <p style="color: #FF0000" *ngIf="editContentForm.controls['title'].invalid && (formSubmited || editContentForm.controls['title'].dirty)">Please enter title</p>
+                          </div>
+                          <div class="form-group">
+                            <label>Description</label>
+                            <textarea type="text" class="form-control" formControlName="description"></textarea>
+                            <p style="color: #FF0000" *ngIf="editContentForm.controls['description'].invalid && (formSubmited || editContentForm.controls['description'].dirty)">Please enter description</p>
+                          </div>
+                          <div class="form-group">
+                              <button class="btn btn-success" type="submit">Submit</button>
+                          </div> 
+                      </div>
+                  </div>
+              </form>
+          </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+      </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>

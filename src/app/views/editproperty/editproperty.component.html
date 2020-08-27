@@ -1,0 +1,96 @@
+<div class="animated fadeIn">
+  <div class="row">
+     <div class="col-lg-12">
+        <div class="card">
+           <div class="card-header">
+              <i class="fa fa-align-justify"></i>Edit Property
+           </div>
+           <div class="card-body">
+              <form [formGroup]="propertyForm" (ngSubmit)="onPropertySubmit()">
+              <div class="">
+                 <div class="col-sm-12">
+                    <div class="cards">
+                       <div class="card-body">
+                          <div class="">
+                             <div class="form-group col-sm-6">
+                                <label>Property title</label>
+                                <input formControlName ="title" type="text" class="form-control" id="property"
+                                   [class.is-invalid]="propertyForm.get('title').invalid &&propertyForm.get('title').touched" 
+                                   required>
+                                <small [class.d-none]="propertyForm.get('title').valid || propertyForm.get('title').untouched" class="text-danger">Property title is required</small>
+                             </div>
+                          </div>
+                          <div class="">
+                             <div class="form-group col-md-12"><label>Purpose</label></div>
+                             <div class=" row form-group col-md-6">
+                                <div class="form-group col-md-4">
+                                   <label class="radio-inline"  >
+                                   <input type="radio" formControlName="purpose" value="commercial">Commercial
+                                   </label>
+                                </div>
+                                <div class="form-group col-md-4">
+                                   <label class="radio-inline">
+                                   <input type="radio" formControlName="purpose" value="residential">Residential
+                                   </label>
+                                </div>
+                                <div class="form-group col-md-4">
+                                   <label class="radio-inline"  >
+                                   <input type="radio" formControlName="purpose" value="both">Both
+                                   </label>
+                                </div>
+                             </div>
+                          </div>
+                          <div class=" row form-group col-md-12">
+                             <div class="col-md-12"><label>Extras</label></div>
+                             <div class="col-md-4" *ngFor="let extra of extras">
+                                <label class="radio-inline"  >
+                                <input type="checkbox"  formControlName="{{extra.value}}">{{extra.key}}
+                                </label>
+                             </div>
+                          </div>
+                          <div class="row form-group col-md-12">
+                             <div class="col-md-12"><label>Specification</label></div>
+                             <div class="col-md-12"><label>Indoor</label></div>
+                             <div class="col-md-3" *ngFor="let indoor of indoorOption; let i = index">
+                                <label class="radio-inline"  >
+                                <input type="checkbox" formControlName="indoor{{i+1}}">{{indoor}}
+                                </label>
+                             </div>
+                             <div class="col-md-12"><label>Outdoor</label></div>
+                             <div class="col-md-3" *ngFor="let outdoor of outdoorOption; let i = index">
+                                 <label class="radio-inline"  >
+                                 <input type="checkbox" formControlName="outdoor{{i+1}}">{{outdoor}}
+                                 </label>
+                              </div>
+                              <div class="col-md-12"><label>Furnish</label></div>
+                             <div class="col-md-3" *ngFor="let furnish of furnishOption; let i = index">
+                                 <label class="radio-inline"  >
+                                 <input type="checkbox" formControlName="furnish{{i+1}}">{{furnish}}
+                                 </label>
+                              </div>
+                              <div class="col-md-12"><label>Parking</label></div>
+                             <div class="col-md-3" *ngFor="let parking of parkingOption; let i = index">
+                                 <label class="radio-inline"  >
+                                 <input type="checkbox" formControlName="parking{{i+1}}">{{parking}}
+                                 </label>
+                              </div>
+                              <div class="col-md-12"><label>Views</label></div>
+                              <div class="col-md-3" *ngFor="let view of viewOption; let i = index">
+                                  <label class="radio-inline"  >
+                                  <input type="checkbox" formControlName="view{{i+1}}">{{view}}
+                                  </label>
+                               </div>
+                          </div>
+                          <button type="submit" class="btn btn-primary fuse-ripple-ready" >Submit</button>           
+                       </div>
+                       <!--/.col-->
+                    </div>
+                    <!--/.row-->
+                 </div>
+              </div>
+              </form>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>

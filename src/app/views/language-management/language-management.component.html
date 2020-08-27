@@ -1,0 +1,101 @@
+<button class="btn btn-primary" data-toggle="modal" data-target="#addLanguage" style="margin-bottom: 10px;"><i class="fa fa-plus" aria-hidden="true"></i>Add Language</button>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Languages List
+        </div>
+        <div class="card-body">
+          <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Language</th>
+                <th>Created On</th>
+                <th>Updated On</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let x of languageData; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{x?.language}}</td>
+                <td>{{x.createdAt | date: 'dd/MM/yyyy'}}</td>
+                <td>{{x.updatedAt | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  <button class="btn btn-primary" data-toggle="modal" (click)="getLanguage(x._id)" data-target="#editLanguage"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                  <button class="btn btn-danger" type="button" (click)="deleteLangauge(x._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="addLanguage">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Add Language</h4>
+              <button type="button" class="close" (click)="addLanguageForm.reset()" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+             <form [formGroup]="addLanguageForm" (ngSubmit)="addLanguage()">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label>Language</label>
+                          <input type="text" class="form-control" formControlName="language"> 
+                      </div>
+                      <p style="color: #FF0000" *ngIf="addLanguageForm.controls['language'].invalid && (formSubmited || addLanguageForm.controls['language'].dirty)">Please enter language</p>
+                      <div class="form-group">
+                          <button class="btn btn-success">Submit<img class="spinner_img" src="assets/img/avatars/spinner.gif"></button>
+                      </div> 
+                  </div>
+              </div>
+              </form>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="addLanguageForm.reset()" data-dismiss="modal">Cancel</button>
+      </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal" id="editLanguage">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Edit Language</h4>
+              <button type="button" class="close" (click)="editLanguageForm.reset()" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+             <form [formGroup]="editLanguageForm" (ngSubmit)="editLanguage()">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                          <label>Language</label>
+                          <input type="text" class="form-control" formControlName="language"> 
+                      </div>
+                      <p style="color: #FF0000" *ngIf="editLanguageForm.controls['language'].invalid && (formSubmited || editLanguageForm.controls['language'].dirty)">Please enter language</p>
+                      <div class="form-group">
+                          <button class="btn btn-success">Submit<img class="spinner_img" src="assets/img/avatars/spinner.gif"></button>
+                      </div> 
+                  </div>
+              </div>
+              </form>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="editLanguageForm.reset()" data-dismiss="modal">Cancel</button>
+      </div>
+      </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+

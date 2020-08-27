@@ -1,0 +1,142 @@
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#addCategory" style="margin-bottom: 10px;"><i class="fa fa-plus" aria-hidden="true"></i>Add Category</button>
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Categories List
+        </div>
+        <div class="card-body">
+          <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Category Name</th>
+                <th>Created On</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let category of categories; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{category.name}}</td>
+                <td>{{category.created | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <button class="btn btn-primary" (click)= setsubcategoryId(category._id) data-toggle="modal" data-target="#addSubCategory"><i class="fa fa-plus" aria-hidden="true"></i>Sub-Category</button>
+                    <button class="btn btn-primary" [routerLink]="['/categorydetails', category._id]"><i class="fa fa-eye" aria-hidden="true"></i>View</button> 
+                    <button class="btn btn-primary" type="button" (click)="editCategory(category._id, category.name)" data-toggle="modal" data-target="#editCategory"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                    <!-- <button class="btn btn-danger" type="button" (click)="deleteCategory(category._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="addCategory">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Add Category</h4>
+              <button type="button" class="close" (click)="addCategoryForm.reset()" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="addCategoryForm" (ngSubmit)="onCategorySubmit()">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label>Name</label>
+                              <input type="text" class="form-control" formControlName="categoryName">
+                              <p style="color: #FF0000" *ngIf="addCategoryForm.controls['categoryName'].invalid && (formSubmited || addCategoryForm.controls['categoryName'].dirty)">Please enter name</p>
+                          </div>
+                          <div class="form-group">
+                              <button class="btn btn-success" type="submit">Submit</button>
+                          </div> 
+                      </div>
+                  </div>
+              </form>
+          </div>
+  
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="addCategoryForm.reset()" data-dismiss="modal">cancel</button>
+      </div>
+  
+      </div>
+  </div>
+</div>
+
+        <!-- Add subcategory modal -->
+<div class="modal" id="addSubCategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Sub-Category</h4>
+                <button type="button" class="close" data-dismiss="modal" (click)="subCategoryForm.reset()" >&times;</button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="subCategoryForm" (ngSubmit)="subCategorySubmit()">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="subcategory">Name</label>
+                                <input type="text" class="form-control" formControlName="name">
+                                <p style="color: #FF0000" *ngIf="subCategoryForm.controls['name'].invalid
+                                 && (formSubmited || subCategoryForm.controls['name'].dirty)">Please enter name</p>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success">Submit</button>
+                            </div> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+    
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" (click)="subCategoryForm.reset()" class="btn btn-danger" data-dismiss="modal">cancel</button>
+        </div>
+    
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="editCategory">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Edit Category</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form name="editCategoryForm" #editCategoryForm="ngForm" (ngSubmit)="onEditCategorySubmit()" novalidate>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label for="subcategory">Name</label>
+                              <input type="text" name="categoryName" class="form-control" [(ngModel)]="categoryName" #name="ngModel" required>
+                              <input type="hidden" name="catId" class="form-control" [(ngModel)]="catId" #name="ngModel" required>
+                            </div>
+                          <div class="form-group">
+                              <button class="btn btn-success">Submit</button>
+                          </div> 
+                      </div>
+                  </div>
+              </form>
+          </div>
+  
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+  
+      </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+

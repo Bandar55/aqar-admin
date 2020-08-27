@@ -1,0 +1,141 @@
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#addMarketing" style="margin-bottom: 10px;"><i class="fa fa-plus" aria-hidden="true"></i>Add Marketing Popup</button>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Marketing Popup List
+        </div>
+        <div class="card-body">
+          <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Screen Name</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Created on</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let popup of marketPopups; let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{popup.screenName}}</td>
+                <td>{{popup.title}}</td>
+                <td><img src="{{popup.bannerImage}}" style="width: 50px;"> </td>
+                <td>{{popup.created | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  <button class="btn btn-primary" data-toggle="modal" (click)="getDetail(popup._id)" data-target="#editMarketing"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                  <button class="btn btn-danger" (click)="deletepopup(popup._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="addMarketing" >
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Add Marketing Popup</h4>
+              <button type="button" class="close" data-dismiss="modal" (click)="addMarketingForm.reset()">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="addMarketingForm" (ngSubmit)="onMarketingSubmit()">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label>Screen Name</label>
+                              <select class="form-control" formControlName="screenName">
+                                <option value="">Please select</option>
+                                <option value="signup">Signup</option>
+                                <option value="signin">Signin</option>
+                                <option value="dashboard">Dashboard</option>
+                              </select>  
+                              <p style="color: #FF0000" *ngIf="addMarketingForm.controls['screenName'].invalid && (formSubmited || addMarketingForm.controls['screenName'].dirty)">Please enter screen name</p>                         
+                            </div>
+                          <div class="form-group">
+                              <label>Title</label>
+                              <input type="text" class="form-control" formControlName="title">
+                              <p style="color: #FF0000" *ngIf="addMarketingForm.controls['title'].invalid && (formSubmited || addMarketingForm.controls['title'].dirty)">Please enter title</p>
+                          </div>
+                          <div class="form-group">
+                            <label for="currency">Image</label>
+                            <input #myInput type="file" class="form-control" (change)="handleFileInput($event.target.files)">
+                          </div>
+                          <div class="form-group">
+                              <button class="btn btn-success" type="submit">Submit</button>
+                          </div> 
+                      </div>
+                  </div>
+              </form>
+          </div>
+  
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="addMarketingForm.reset()" data-dismiss="modal">Cancel</button>
+      </div>
+  
+      </div>
+  </div>
+</div>
+
+
+<div class="modal" id="editMarketing" >
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Edit Marketing Popup</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+                  <form [formGroup]="editMarketingForm" (ngSubmit)="onEditMarketingSubmit()">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label>Screen Name</label>
+                              <select class="form-control" formControlName="screenName">
+                                <option value="">Please select</option>
+                                <option value="signup">Signup</option>
+                                <option value="signin">Signin</option>
+                                <option value="dashboard">Dashboard</option>
+                              </select>   
+                              <p style="color: #FF0000" *ngIf="editMarketingForm.controls['title'].invalid && (formSubmited || editMarketingForm.controls['title'].dirty)">Please enter title</p>                        
+                            </div>
+                          <div class="form-group">
+                              <label>Title</label>
+                              <input type="text" class="form-control" formControlName="title">
+                              <p style="color: #FF0000" *ngIf="editMarketingForm.controls['title'].invalid && (formSubmited || editMarketingForm.controls['title'].dirty)">Please enter title</p>
+                          </div>
+                          <div class="form-group">
+                            <label>Change Image</label>
+                            <div>
+                              <img src="{{popup.bannerImage}}" style="width: 100px;"> 
+                            </div>
+                            <input type="file" class="form-control" (change)="handleFileInput($event.target.files)">
+                          </div>
+                          <div class="form-group">
+                              <button type="submit" class="btn btn-success">Submit</button>
+                          </div> 
+                      </div>
+                  </div>
+              </form>
+          </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>
+  
+      </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>

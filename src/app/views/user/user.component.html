@@ -1,0 +1,468 @@
+
+<!-- <button class="btn btn-primary" data-toggle="modal" data-target="#addUser" style="margin-bottom: 10px;"><i class="fa fa-plus" aria-hidden="true"></i>Add User</button> -->
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Users List
+        </div>
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="normal-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="true">Normal User</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="professional-tab" data-toggle="tab" href="#professional" role="tab" aria-controls="professional" aria-selected="false">Professional User</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="business-tab" data-toggle="tab" href="#business" role="tab" aria-controls="business" aria-selected="false">Business User</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="normal-tab">
+                  <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger1" >
+                    <thead>
+                      <tr>
+                        <th>S.No.</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Created On</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor = "let user of users; let i = index;">
+                        <td>{{i+1}}</td>
+                        <td>{{user?.fullName}}</td>
+                        <td>{{user?.email}}</td>
+                        <td>{{user?.created | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#viewUser" (click)="getUserDetails(user._id)"><i class="fa fa-eye" aria-hidden="true"></i>View</button>
+                          <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#editUser" (click)="getUserDetails(user._id)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button> -->
+                          <button class="btn btn-success" *ngIf="user.status != 'active'" (click)="blockVerifyUser(user._id, 'active', 'normal')"><i class="fa fa-check" aria-hidden="true" ></i>Verify</button>
+                          <button class="btn btn-success" *ngIf="user.status == 'active'" ><i class="fa fa-check" aria-hidden="true" ></i>Verified</button>
+                          <button class="btn btn-danger" *ngIf="user.status == 'active'" (click)="blockVerifyUser(user._id, 'inactive', 'normal')"><i class="fa fa-ban" aria-hidden="true" ></i>Block</button>
+                          <button class="btn btn-danger"  *ngIf="user.status != 'active'"><i class="fa fa-ban" aria-hidden="true" ></i>Blocked</button>
+                          <!-- <button class="btn btn-primary" data-toggle="modal" (click)="report(user._id)" data-target="#reportUser"><i class="fa fa-ban" ></i>Report</button> -->
+                          <!-- <button class="btn btn-danger" type="button" (click)="deleteUser(user._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="tab-pane fade" id="professional" role="tabpanel" aria-labelledby="professional-tab">
+                    <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger2" >
+                        <thead>
+                          <tr>
+                            <th>S.No.</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Created On</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor = "let user of professionalUsers; let i = index;">
+                            <td>{{i+1}}</td>
+                            <td>{{user?.fullName}}</td>
+                            <td>{{user?.email}}</td>
+                            <td>{{user?.created | date: 'dd/MM/yyyy'}}</td>
+                            <td>
+                              <button class="btn btn-primary" data-toggle="modal" data-target="#viewUser" (click)="getUserDetails(user._id)"><i class="fa fa-eye" aria-hidden="true"></i>View</button>
+                              <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#editUser" (click)="getUserDetails(user._id)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button> -->
+                              <button class="btn btn-success" *ngIf="user.status != 'active'" (click)="blockVerifyUser(user._id, 'active', 'professional')"><i class="fa fa-check" aria-hidden="true" ></i>Verify</button>
+                              <button class="btn btn-success" *ngIf="user.status == 'active'" ><i class="fa fa-check" aria-hidden="true" ></i>Verified</button>
+                              <button class="btn btn-danger" *ngIf="user.status == 'active'" (click)="blockVerifyUser(user._id, 'inactive', 'professional')"><i class="fa fa-ban" aria-hidden="true" ></i>Block</button>
+                              <button class="btn btn-danger"  *ngIf="user.status != 'active'"><i class="fa fa-ban" aria-hidden="true" ></i>Blocked</button>
+                              <!-- <button class="btn btn-danger" type="button" (click)="deleteUser(user._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button> -->
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                <div class="tab-pane fade" id="business" role="tabpanel" aria-labelledby="business-tab">
+                    <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger3" >
+                        <thead>
+                          <tr>
+                            <th>S.No.</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Created On</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor = "let user of businessUsers; let i = index;">
+                            <td>{{i+1}}</td>
+                            <td>{{user?.fullName}}</td>
+                            <td>{{user?.email}}</td>
+                            <td>{{user?.created | date: 'dd/MM/yyyy'}}</td>
+                            <td>
+                              <button class="btn btn-primary" data-toggle="modal" data-target="#viewUser" (click)="getUserDetails(user._id)"><i class="fa fa-eye" aria-hidden="true"></i>View</button>
+                              <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#editUser" (click)="getUserDetails(user._id)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</button> -->
+                              <button class="btn btn-success" *ngIf="user.status != 'active'" (click)="blockVerifyUser(user._id, 'active', 'business')"><i class="fa fa-check" aria-hidden="true" ></i>Verify</button>
+                              <button class="btn btn-success" *ngIf="user.status == 'active'" ><i class="fa fa-check" aria-hidden="true" ></i>Verified</button>
+                              <button class="btn btn-danger" *ngIf="user.status == 'active'" (click)="blockVerifyUser(user._id, 'inactive', 'business')"><i class="fa fa-ban" aria-hidden="true" ></i>Block</button>
+                              <button class="btn btn-danger"  *ngIf="user.status != 'active'"><i class="fa fa-ban" aria-hidden="true" ></i>Blocked</button>
+                              <!-- <button class="btn btn-danger" type="button" (click)="deleteUser(user._id)"><i class="fa fa-trash" aria-hidden="true"></i>Delete</button> -->
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="reportUser">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Report</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p *ngFor="let data of chatDetails">{{data.reply}}</p>
+            <form [formGroup]="reportUserForm"  novalidate>
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <label>Reply</label>
+                    <textarea formControlName ="reply" type="text" class="form-control" ></textarea>
+                  </div>
+                </div>
+            </form>
+        </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" (click)="onReport()" >Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- <div class="modal" id="addUser" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add User</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form name="addUserForm" #addUserForm="ngForm" (ngSubmit)="onAddUserSubmit()" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="userType">User Type</label>
+                                <select name="userType" class="form-control" [(ngModel)]="userType" #name="ngModel" required>
+                                  <option value="">Please select</option>
+                                  <option value="normal">Normal</option>
+                                  <option value="business">Business</option>
+                                  <option value="professional">Professional</option>
+                                </select>                           
+                              </div>
+                            <div class="form-group">
+                                <label for="full_name">Full Name</label>
+                                <input type="text" name="full_name" class="form-control" [(ngModel)]="full_name" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="category">Category</label>
+                              <select name="category" class="form-control" [(ngModel)]="category" #name="ngModel" (change)="selectSubcategry($event)" required>
+                                <option value="">Please select</option>
+                                <option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
+                              </select>           
+                            </div>
+                          <div class="form-group">
+                            <label for="subcategory">Sub-Category</label>
+                            <select name="subcategory" class="form-control" [(ngModel)]="subcategory" #name="ngModel" required>
+                              <option value="">Please select</option>
+                              <option *ngFor="let subcategory of subcategories" value="{{subcategory.name}}">{{subcategory.name}}</option>       
+                            </select>                                 
+                          </div>
+                          <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select name="gender" class="form-control" [(ngModel)]="gender" #name="ngModel" required>
+                              <option value="">Please select</option>
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                            </select>                           
+                          </div>
+                          <div class="form-group">
+                            <label for="birth_year">Birth Year</label>
+                            <input type="text" name="birth_year" class="form-control" [(ngModel)]="birth_year" #name="ngModel" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" class="form-control" [(ngModel)]="email" #name="ngModel" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" name="country" class="form-control" [(ngModel)]="country" #name="ngModel" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="country_code">Country code</label>
+                            <input type="text" name="country_code" class="form-control" [(ngModel)]="country_code" #name="ngModel" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="phone">Mobile Number</label>
+                            <input type="text" name="phone" class="form-control" [(ngModel)]="phone" #name="ngModel" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="currency">Currency</label>
+                            <input type="text" name="currency" class="form-control" [(ngModel)]="currency" #name="ngModel" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="measurement">Measurement</label>
+                            <input type="text" name="measurement" class="form-control" [(ngModel)]="measurement" #name="ngModel" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="subcategory">App Language</label>
+                            <select name="app_lang" class="form-control" [(ngModel)]="app_lang" #name="ngModel" required>
+                              <option value="">Please select</option>
+                              <option value="english">English</option>
+                              <option value="arabic">Arabic</option>
+                            </select>                           
+                          </div>
+                          <div class="form-group">
+                            <label for="subcategory">Speak Language</label>
+                            <select name="speak_lang" class="form-control" [(ngModel)]="speak_lang" #name="ngModel" required>
+                              <option value="">Please select</option>
+                              <option value="english">English</option>
+                              <option value="arabic">Arabic</option>
+                            </select>                           
+                          </div>
+                          <div class="form-group">
+                              <label for="currency">Profile pic</label>
+                              <input type="file" class="form-control" (change)="handleFileInput($event.target.files)" required>
+                            </div>
+                          <div class="form-group">
+                              <button class="btn btn-success">Submit</button>
+                          </div> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+    
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    
+        </div>
+    </div>
+  </div> -->
+
+
+  <!-- <div class="modal" id="editUser" >
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">Edit User</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                  <form name="addUserForm" #addUserForm="ngForm" (ngSubmit)="onEditUserSubmit()" novalidate>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="full_name">Full Name</label>
+                                  <input type="hidden" name="user_id" class="form-control" [(ngModel)]="user._id" #name="ngModel" required>
+                                  <input type="text" name="full_name" class="form-control" [(ngModel)]="user.fullName" #name="ngModel" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" class="form-control" [(ngModel)]="user.category" #name="ngModel" (change)="selectSubcategry($event)" required>
+                                  <option value="">Please select</option>
+                                  <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
+                                </select>           
+                              </div>
+                            <div class="form-group">
+                              <label for="subcategory">Sub-Category</label>
+                              <select name="subcategory" class="form-control" [(ngModel)]="user.subcategory" #name="ngModel" required>
+                                <option value="">Please select</option>
+                                <option *ngFor="let subcategory of subcategories" [value]="subcategory.name" >{{subcategory.name}}</option>       
+                              </select>                                 
+                            </div>
+                            <div class="form-group">
+                              <label for="gender">Gender</label>
+                              <select name="gender" class="form-control" [(ngModel)]="user.gender" #name="ngModel" required>
+                                <option value="">Please select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                              </select>                           
+                            </div>
+                            <div class="form-group">
+                              <label for="birth_year">Birth Year</label>
+                              <input type="text" name="birth_year" class="form-control" [(ngModel)]="user.birthYear" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="email">Email</label>
+                              <input type="text" name="email" class="form-control" [(ngModel)]="user.email" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="country">Country</label>
+                              <input type="text" name="country" class="form-control" [(ngModel)]="user.country" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="country_code">Country code</label>
+                              <input type="text" name="country_code" class="form-control" [(ngModel)]="user.countryCode" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="phone">Mobile Number</label>
+                              <input type="text" name="phone" class="form-control" [(ngModel)]="user.mobileNumber" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="currency">Currency</label>
+                              <input type="text" name="currency" class="form-control" [(ngModel)]="user.currency" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="measurement">Measurement</label>
+                              <input type="text" name="measurement" class="form-control" [(ngModel)]="user.measurement" #name="ngModel" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="subcategory">App Language</label>
+                              <select name="app_lang" class="form-control" [(ngModel)]="user.appLanguage" #name="ngModel" required>
+                                <option value="">Please select</option>
+                                <option value="english">English</option>
+                                <option value="arabic">Arabic</option>
+                              </select>                           
+                            </div>
+                            <div class="form-group">
+                              <label for="subcategory">Speak Language</label>
+                              <select name="speak_lang" class="form-control" [(ngModel)]="user.speakLanguage" #name="ngModel" required>
+                                <option value="">Please select</option>
+                                <option value="english">English</option>
+                                <option value="arabic">Arabic</option>
+                              </select>                           
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success">Submit</button>
+                            </div> 
+                          </div>
+                      </div>
+                  </form>
+              </div>
+      
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+      
+          </div>
+      </div>
+  </div> -->
+
+ <div class="modal" id="viewUser">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">User Details</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label class="col-md-3">User Type</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.Type}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Full Name</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.fullName}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Category</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.category}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Sub-category</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.subCategory}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Gender</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.gender}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Birth Date</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.birthDate}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Email</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.email}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Country</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.country}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Country Code</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.countryCode}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Mobile Number</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.mobileNumber}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Currency</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.currency}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Measurement</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.measurement}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">App Language</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.appLanguage}}</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-md-3">Speak Language</label>
+                  <div class="col-md-9">
+                    <span class="help-block">{{user.speakLanguage}}</span>
+                  </div>
+                </div>
+                  <!-- <div class="form-group row">
+                      <label *ngIf =userData.profilePic class="col-md-3">Profile Pic</label>
+                      <div class="col-md-9">
+                        <img src= {{userData?.profilePic}} style="width: 40px;">
+                      </div>
+                    </div> -->
+                 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+   
+
+

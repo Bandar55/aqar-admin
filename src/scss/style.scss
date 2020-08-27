@@ -1,0 +1,104 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+
+// If you want to add something do it here
+@import '~ngx-toastr/toastr';
+
+@import "custom";
+
+.sidebar .nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    background: transparent;
+    font-size: 13px;
+}.spinner_img{
+    width: 20px;
+    margin-left: 8px;
+    display: none
+}
+label.cat {
+    padding: 0px 0px;
+}
+
+label.cat input.ng-untouched.ng-pristine.ng-invalid {
+    margin: 0px 5px;
+}
+label.cats {
+    padding: 0px 0px;
+}
+
+label.cats input.ng-untouched.ng-pristine.ng-invalid {
+    margin: 0px 5px;
+}
+.success-msg{
+    width: 500px;
+    margin: 20px 22px;
+    margin-bottom: 0px;
+}
+.navbar-toggler {
+    display: none;
+}
+.fa {
+    margin-right: 6px;
+}
+input[type=checkbox] {
+    margin-right: 5px;
+}
+input[type=radio] {
+    margin-right: 5px;
+}
+
+.app-footer,
+.sidebar-lg-show.sidebar-fixed .main{ margin-left:250px !important  }
+
+
+.sidebar-lg-show.sidebar-fixed .main .app-body .main{ margin-left:0px !important }
+
+.sidebar .sidebar-nav{ width: 250px; 
+    .nav{ width: 250px; background-color: #2f353a; 
+        a.nav-link{ font-size: 14px; }
+    }
+}
+
+.sidebar .sidebar-minimizer { 
+    background-color: rgb(35, 41, 45); 
+    width: 250px;
+}
+ 
+.RegisterBox{     margin: 0;
+    padding: 30px 20px;
+    position: relative;
+    min-height: 160px;
+    border-radius: 13px;
+    overflow: hidden;
+    a{ color: #000 ;
+        &:hover{ text-decoration: none; color: #fff }
+    }
+
+    h1{     margin: 0;
+        font-weight: 600;
+        font-size: 48px;}
+    h2{    margin: 0;
+        font-size: 16px;}
+    span.Number{     margin: 0;
+        position: absolute;
+        bottom: -40px;
+        right: -20px;
+        font-size: 85px;
+        font-weight: 700;
+        color: #000;
+        opacity: 0.2;}
+}
+
+
+
+
+
+
+
+

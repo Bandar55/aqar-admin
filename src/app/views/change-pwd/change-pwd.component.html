@@ -1,0 +1,52 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center" style="margin-left: 0px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+                <div *ngIf="errormsg" class="alert alert-danger">
+                  {{errormsg}}
+                </div>
+                <div *ngIf="successmsg" class="alert alert-success">
+                    {{successmsg}}
+                </div>
+              <div class="card-body">
+                <form [formGroup]="changepwdForm" (ngSubmit)="onSubmit()">
+                  <h5 style="margin-bottom: 20px;">Change Password</h5>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-user"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Current Password" formControlName="oldpwd">
+                  </div>
+                  <p style="color: #FF0000" *ngIf="changepwdForm.controls['oldpwd'].invalid && (formSubmited || changepwdForm.controls['oldpwd'].dirty)">Please enter current password</p>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="New Password" formControlName="newpwd">
+                  </div>
+                  <p style="color: #FF0000" *ngIf="changepwdForm.controls['newpwd'].invalid && (formSubmited || changepwdForm.controls['newpwd'].dirty)">Please enter new password</p>
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                      </div>
+                      <input type="password" class="form-control" placeholder="Confirm Password" formControlName="confirmpwd">
+                  </div>
+                    <p style="color: #FF0000" *ngIf="changepwdForm.controls['confirmpwd'].invalid && (formSubmited || changepwdForm.controls['confirmpwd'].dirty)">Please enter confirm password</p>
+                    <p style="color: #FF0000" *ngIf="msg">{{msg}}</p>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-primary px-4">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
